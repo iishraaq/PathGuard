@@ -1,14 +1,11 @@
 import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Platform, StyleSheet } from 'react-native'; //NOT IN USE 
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { ThemedText } from '@/components/themed-text'; //NOT IN USE 
+import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme'; //NOT IN USE 
 
+import DeviceSetupScreen from '@/components/DeviceSetupScreen';
+//NOT IN USE 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
     return <ThemedText type="small">use browser devtools</ThemedText>;
@@ -27,38 +24,9 @@ function getDevMenuHint() {
     </ThemedText>
   );
 }
-
+// Right now our "homescreen" is the setup interface. This could be changed to the login interface. 
 export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
+  return <DeviceSetupScreen />;
 }
 
 const styles = StyleSheet.create({
@@ -96,3 +64,6 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.four,
   },
 });
+
+//Note: Everything that is commented "NOT IN USE" is the default settings and code added into all of this, so keep that in mind.
+// It doesn't mean we need to delete, it just means we don't understand it and it might break everything if we don't know what it does. 

@@ -1,56 +1,65 @@
-# Welcome to your Expo app 👋
+# PathGuard
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+At first were working on iOS first, with Android support planned later. Why? Simple, I've got an iphone so I went ahead on worked with IOS. This doesn't connect to the ESP32. 
 
-## Get started
+## Setup (Windows + iPhone)
 
-1. Install dependencies
+**Install once:** [Node.js LTS](https://nodejs.org/), [Git](https://git-scm.com/downloads), [VS Code](https://code.visualstudio.com/), and [Expo Go](https://expo.dev/go) on your iPhone. Restart VS Code after installing Node.js.
 
-   ```bash
-   npm install
-   ```
+**Clone the existing project** (don't run `create-expo-app`):
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```powershell
+git clone <REPOSITORY_URL>
+cd PathGuard
+npm.cmd install
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Replace `<REPOSITORY_URL>` with this repo's HTTPS clone URL.
 
-### Other setup steps
+**Sign in to Expo** on both your iPhone (Expo Go) and your computer using the **same account**. Each teammate can use their own account.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```powershell
+npx.cmd expo login
+npx.cmd expo whoami
+```
 
-## Learn more
+If you use **Google sign-in** and the browser login doesn't sign in the CLI, try:
 
-To learn more about developing your project with Expo, look at the following resources:
+```powershell
+npx.cmd --yes eas-cli@latest login --device
+npx.cmd expo whoami
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Run and test
 
-## Join the community
+```powershell
+npx.cmd expo start --go
+```
 
-Join our community of developers creating universal apps.
+Connect your iPhone and computer to the same Wi-Fi, then scan the QR code with the iPhone Camera app to open the project in Expo Go. Saving code changes should automatically refresh the app.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Test the current flow: **Scan → PathGuard Demo → Connected → Disconnect**. This uses simulated devices, not real Bluetooth.
+
+Check for TypeScript errors with `npx.cmd tsc --noEmit`.
+
+## Common fixes
+
+| Issue | Solution |
+| --- | --- |
+| PowerShell blocks `npm.ps1` / `npx.ps1` | Use `npm.cmd` / `npx.cmd` as shown above. |
+| Expo tries to use a development build | Run `npx.cmd expo start --go --clear`. |
+| Expo Go says the CLI isn't signed in | Verify `npx.cmd expo whoami` and sign into the same account on your iPhone. |
+| QR code can't connect | Check Wi-Fi or use `npx.cmd expo start --go --tunnel`. |
+| Changes aren't showing | Restart with `npx.cmd expo start --go --clear`. |
+
+## Main files
+
+- `src/app/index.tsx` — Controls the overall navigation layout of the application.
+- `src/app/_layout.tsx` — Defines the first screen atm that appears when we open the app. (this is not going to be the fisrt window they look)
+- `src/components/DeviceSetupScreen.tsx` — The GUI of the device setup screen.
+
+The Flow goes from top to bottom. We use React's useState to keep track of whether PathGuard is disconnected, scanning, connecting, or connected. When that state changes, React updates the interface automatically 
+
+**Why this stack?** React Native + Expo + TypeScript lets us reuse most of the code on Android later and preview the UI directly on an iPhone. Real ESP32/BLE integration will require a custom development build instead of Expo Go.
+
+**Questions and concerns** Feel free to reach out. if you read the whole document text me on discord the U.S flag. 
